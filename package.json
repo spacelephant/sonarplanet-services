@@ -20,5 +20,8 @@
   "devDependencies": {
     "typescript": "^2.8.1",
     "nodemon": "^1.17.3"
+  },
+  "engines" : {
+    "node" : "~9.0"
   }
 }
