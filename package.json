@@ -13,7 +13,7 @@
     "web-push": "^3.3.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
+    "install": "./node_modules/.bin/tsc",
     "dev": "nodemon ./dist/app.js",
     "start": "node ./dist/app.js"
   },
