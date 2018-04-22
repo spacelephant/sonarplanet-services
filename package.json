@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Address tracker",
   "main": "app.js",
-  "repository": "git@github.com:spacelephant/sonarplanet-services.git",
-  "author": "spacelephant",
+  "repository": "git@github.com:sonarplanet/sonarplanet-services.git",
+  "author": "sonarplanet",
   "license": "ISC",
   "dependencies": {
     "@types/body-parser": "^1.16.8",
     "@types/express": "^4.11.1",
-    "trackr-lib": "git@github.com:spacelephant/trackr-lib.git",
-    "web-push": "^3.3.0"
+    "web-push": "^3.3.0",
+    "trackr-lib": "spacelephant/trackr-lib#master"
   },
   "scripts": {
     "install": "./node_modules/.bin/tsc",
