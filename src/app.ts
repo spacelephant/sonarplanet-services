@@ -8,7 +8,7 @@ import * as trackr from 'trackr-lib'
 const app = express()
 
 // Adding type allow us to use $.post (crossDomain friendly) not $.ajax
-app.use(json({ type: '*/*' }));
+app.use(json({ type: '*/*' }))
 
 // VAPID keys should only be generated only once.
 const vapidKeys = webpush.generateVAPIDKeys();
@@ -37,14 +37,24 @@ function watch(address: string, subscription: PushSubscription) {
       webpush.sendNotification(
         subscription,
         JSON.stringify(payload),
-        options)
+        options).then(
+          (response: any) => {
+            console.info("Notification Sent (address: " + address + ",  end-point " + subscription.endpoint + ")")
+          },
+          (error: any) => {
+            // TODO : unsubscribe on 410 ?
+            // Error codes : http://autopush.readthedocs.io/en/latest/http.html#error-codes
+            let bodyError = JSON.parse(error.body)
+            console.error("Erreur " + error.statusCode + ". " + bodyError.message)
+          }
+        )
     }
   })
 }
 
 app.post('/register-to-notification', (req, res) => {
   console.log('Registration')
-  let subscription = req.body.subscription
+  let subscription: PushSubscription = req.body.subscription
   let address = req.body.address
   res.setHeader('Access-Control-Allow-Origin', '*')
   try {
@@ -53,6 +63,6 @@ app.post('/register-to-notification', (req, res) => {
   } catch (error) {
     res.status(500).send({})
   }
-});
+})
 
 app.listen(8080)
