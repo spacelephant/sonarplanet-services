@@ -23,7 +23,7 @@ etherScanUrl = [etherscan.io](https://etherscan.io/) subdomain url
 ### Launch
 Install dependances:
 ```
-yarn install
+yarn
 ```
 
 Launch backend:
@@ -31,10 +31,12 @@ Launch backend:
 yarn start
 ```
 
-Launch backend with nodemon (automatic reload):
+Or launch backend with automatic dev reload:
 ```
-yarn run dev
+yarn dev
 ```
+
+The API will be available at `http://localhost:8080/`
 
 ## Ethereum node (Ubuntu)
 ### Install go-ethereum
