@@ -13,7 +13,7 @@ app.use(json({ type: '*/*' }))
 // VAPID keys should only be generated only once.
 const vapidKeys = webpush.generateVAPIDKeys();
 const trackr_node_address = 'wss://sonarplanet-eth-node-noprod.cleverapps.io'
-const etherScanUrl = 'https://rinkeby.etherscan.io/tx/'
+const etherScanUrl = 'https://kovan.etherscan.io/tx/'
 
 const options = {
   vapidDetails: {
