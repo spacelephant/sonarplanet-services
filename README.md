@@ -8,11 +8,6 @@ Stack:
 * [Nodemon](https://github.com/remy/nodemon/)
 * [Yarn](https://yarnpkg.com)
 
-Urls : 
-
-* sonarplanet-services : [http://sonarplanet-services-noprod.cleverapps.io/](http://sonarplanet-services-noprod.cleverapps.io/)
-* sonarplanet-eth-node : [http://sonarplanet-eth-node-noprod.cleverapps.io/](http://sonarplanet-eth-node-noprod.cleverapps.io/)
-
 ### Variables
 ```
 trackr_node_address = Ethereum node url (web socket)
