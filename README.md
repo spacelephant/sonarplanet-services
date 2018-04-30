@@ -52,7 +52,6 @@ Web socket default port: 8546
 
 rinkeby.fast.toml file example:
 ```
-# Note: this config doesn't contain the genesis block.
 
 [Eth]
 NetworkId = 4
