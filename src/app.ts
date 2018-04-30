@@ -12,7 +12,7 @@ app.use(json({ type: '*/*' }))
 
 // VAPID keys should only be generated only once.
 const vapidKeys = webpush.generateVAPIDKeys();
-const trackr_node_address = 'ws://localhost:8546'
+const trackr_node_address = 'wss://sonarplanet-eth-node-noprod.cleverapps.io'
 const etherScanUrl = 'https://rinkeby.etherscan.io/tx/'
 
 const options = {
@@ -25,31 +25,28 @@ const options = {
 
 function watch(address: string, subscription: PushSubscription) {
   console.log('Watch local')
-  trackr.watch(trackr_node_address, address, (err: string, transactionId: string) => {
+  trackr.watch(trackr_node_address, address, (transactionId: string) => {
     console.log('watch callback')
-    if (err) {
-      console.error(err)
-    } else {
-      console.info('Send notif for address: ' + transactionId)
-      let payload = {
-        url: etherScanUrl + transactionId
-      }
-      webpush.sendNotification(
-        subscription,
-        JSON.stringify(payload),
-        options).then(
-          (response: any) => {
-            console.info("Notification Sent (address: " + address + ",  end-point " + subscription.endpoint + ")")
-          },
-          (error: any) => {
-            // TODO : unsubscribe on 410 ?
-            // Error codes : http://autopush.readthedocs.io/en/latest/http.html#error-codes
-            let bodyError = JSON.parse(error.body)
-            console.error("Erreur " + error.statusCode + ". " + bodyError.message)
-          }
-        )
+    console.info('Send notif for address: ' + transactionId)
+    let payload = {
+      url: etherScanUrl + transactionId
     }
-  })
+    webpush.sendNotification(
+      subscription,
+      JSON.stringify(payload),
+      options).then(
+        (response: any) => {
+          console.info("Notification Sent (address: " + address + ",  end-point " + subscription.endpoint + ")")
+        },
+        (error: any) => {
+          // TODO : unsubscribe on 410 ?
+          // Error codes : http://autopush.readthedocs.io/en/latest/http.html#error-codes
+          let bodyError = JSON.parse(error.body)
+          console.error("Erreur " + error.statusCode + ". " + bodyError.message)
+        }
+      )
+    },
+    (err: string) => console.error(err) )
 }
 
 app.post('/register-to-notification', (req, res) => {

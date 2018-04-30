@@ -10,7 +10,7 @@
     "@types/body-parser": "^1.16.8",
     "@types/express": "^4.11.1",
     "web-push": "^3.3.0",
-    "trackr-lib": "spacelephant/trackr-lib#master"
+    "trackr-lib": "sonarplanet/trackr-lib#publish"
   },
   "scripts": {
     "install": "./node_modules/.bin/tsc",

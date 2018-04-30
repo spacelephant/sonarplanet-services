@@ -943,7 +943,7 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-express@^4.14.0, express@^4.16.3:
+express@^4.14.0:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.3.tgz#6af8a502350db3246ecc4becf6b5a34d22f7ed53"
   dependencies:
@@ -2890,12 +2890,11 @@ tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   dependencies:
     punycode "^1.4.1"
 
-"trackr-lib@git+ssh://git@github.com:spacelephant/trackr-lib.git":
+trackr-lib@sonarplanet/trackr-lib#publish:
   version "0.0.0"
-  resolved "git+ssh://git@github.com:spacelephant/trackr-lib.git#633a31704795c4c0afc845e67e1b5081832dc9fe"
+  resolved "https://codeload.github.com/sonarplanet/trackr-lib/tar.gz/e53dbdd9f84e5540dc29827a44d32520b45c8ae2"
   dependencies:
-    express "^4.16.3"
-    web3 "^1.0.0-beta.33"
+    web3 "^1.0.0-beta.34"
 
 trim@0.0.1:
   version "0.0.1"
@@ -3255,7 +3254,7 @@ web3-utils@1.0.0-beta.34:
     underscore "1.8.3"
     utf8 "2.1.1"
 
-web3@^1.0.0-beta.33:
+web3@^1.0.0-beta.34:
   version "1.0.0-beta.34"
   resolved "https://registry.yarnpkg.com/web3/-/web3-1.0.0-beta.34.tgz#347e561b784098cb5563315f490479a1d91f2ab1"
   dependencies:
