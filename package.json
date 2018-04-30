@@ -1,0 +1,27 @@
+{
+  "name": "sonarplanet-services",
+  "version": "1.0.0",
+  "description": "Address tracker",
+  "main": "app.js",
+  "repository": "git@github.com:sonarplanet/sonarplanet-services.git",
+  "author": "sonarplanet",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/express": "^4.11.1",
+    "web-push": "^3.3.0",
+    "trackr-lib": "sonarplanet/trackr-lib#publish"
+  },
+  "scripts": {
+    "install": "./node_modules/.bin/tsc",
+    "dev": "nodemon ./dist/app.js",
+    "start": "node ./dist/app.js"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.1",
+    "nodemon": "^1.17.3"
+  },
+  "engines" : {
+    "node" : "^8.0"
+  }
+}
