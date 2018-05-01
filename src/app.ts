@@ -5,6 +5,9 @@ import {
 import * as webpush from 'web-push'
 import * as trackr from 'trackr-lib'
 
+const Config = require('./config/config')
+let configuration = new Config()
+
 const app = express()
 
 // Adding type allow us to use $.post (crossDomain friendly) not $.ajax
@@ -12,12 +15,14 @@ app.use(json({ type: '*/*' }))
 
 // VAPID keys should only be generated only once.
 const vapidKeys = webpush.generateVAPIDKeys();
-const trackr_node_address = 'wss://sonarplanet-eth-node-noprod.cleverapps.io'
-const etherScanUrl = 'https://kovan.etherscan.io/tx/'
+// TODO : get network from request
+const trackerId = 'ETHEREUM_KOVAN'
+const trackr_node_address = configuration.trackers[trackerId].url
+const etherScanUrl = configuration.trackers[trackerId].scanner
 
 const options = {
   vapidDetails: {
-    subject: 'mailto:fabien.treguer@spacelephant.org',
+    subject: 'mailto:support@sonarplanet.io',
     publicKey: vapidKeys.publicKey,
     privateKey: vapidKeys.privateKey
   }
