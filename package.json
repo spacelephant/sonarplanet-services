@@ -13,13 +13,35 @@
     "trackr-lib": "sonarplanet/trackr-lib#publish"
   },
   "scripts": {
-    "install": "./node_modules/.bin/tsc",
+    "build": "./node_modules/.bin/tsc",
     "dev": "nodemon ./dist/app.js",
-    "start": "node ./dist/app.js"
+    "start": "node ./dist/app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:prod": "yarn test -- --coverage --no-cache"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "collectCoverage": true
   },
   "devDependencies": {
     "typescript": "^2.8.1",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "@types/jest": "^22.2.3",
+    "jest": "^22.4.3",
+    "ts-jest": "^22.4.4"
   },
   "engines" : {
     "node" : "^8.0"
