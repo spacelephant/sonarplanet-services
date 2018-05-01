@@ -18,7 +18,7 @@
     "start": "node ./dist/app.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "yarn lint && yarn test -- --coverage --no-cache",
+    "test:prod": "yarn lint & yarn test -- --coverage --no-cache",
     "pretty": "prettier --no-semi --single-quote \"{src,test}/**/*.ts\"",
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'"
   },
