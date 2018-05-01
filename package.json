@@ -18,8 +18,9 @@
     "start": "node ./dist/app.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "yarn lint & yarn test -- --coverage --no-cache",
-    "pretty": "prettier --no-semi --single-quote \"{src,test}/**/*.ts\"",
+    "test:prod": "yarn pretty -l & yarn lint & yarn test -- --coverage --no-cache",
+    "pretty": "prettier --config ./prettier.config.js \"{src,test}/**/*.ts\"",
+    "prettify": "pretty --write",
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'"
   },
   "jest": {

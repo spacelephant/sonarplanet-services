@@ -118,3 +118,11 @@ Host = "localhost"
 Port = 8080
 Refresh = 5000000000
 ```
+
+## Contribute
+
+### Prettify 
+
+Manually run `yarn prettify`
+
+*OR* configure your editor with this [doc](https://prettier.io/docs/en/editors.html#visual-studio-code)
