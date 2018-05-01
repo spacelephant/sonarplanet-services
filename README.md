@@ -126,3 +126,9 @@ Refresh = 5000000000
 Manually run `yarn prettify`
 
 *OR* configure your editor with this [doc](https://prettier.io/docs/en/editors.html#visual-studio-code)
+
+### Linter
+
+run `yarn lint`
+
+Rules are defined into these [projects](https://github.com/blakeembrey/tslint-config-standard#rules)

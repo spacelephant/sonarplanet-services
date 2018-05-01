@@ -14,5 +14,5 @@ branches:
     - master
 
 script:
-  - yarn test:prod && yarn build
+  - yarn prettify:check & yarn lint:check & yarn test:prod && yarn build
 
