@@ -18,10 +18,12 @@
     "start": "node ./dist/app.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "yarn pretty -l & yarn lint & yarn test -- --coverage --no-cache",
+    "test:prod": "yarn test --coverage --no-cache",
     "pretty": "prettier --config ./prettier.config.js \"{src,test}/**/*.ts\"",
     "prettify": "pretty --write",
-    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'"
+    "prettify:check": "pretty -l",
+    "lint": "tslint -c ./tslint.json -t codeFrame \"{src,test}/**/*.ts\"",
+    "lint:check": "lint --force"
   },
   "jest": {
     "transform": {
