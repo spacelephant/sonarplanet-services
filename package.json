@@ -18,7 +18,9 @@
     "start": "node ./dist/app.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "yarn test -- --coverage --no-cache"
+    "test:prod": "yarn lint && yarn test -- --coverage --no-cache",
+    "pretty": "prettier --no-semi --single-quote \"{src,test}/**/*.ts\"",
+    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'"
   },
   "jest": {
     "transform": {
@@ -41,7 +43,11 @@
     "nodemon": "^1.17.3",
     "@types/jest": "^22.2.3",
     "jest": "^22.4.3",
-    "ts-jest": "^22.4.4"
+    "ts-jest": "^22.4.4",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.12.0",
+    "tslint-config-standard": "^7.0.0",
+    "prettier": "1.12.1"
   },
   "engines" : {
     "node" : "^8.0"
