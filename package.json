@@ -20,10 +20,10 @@
     "test:watch": "jest --watch",
     "test:prod": "yarn test --coverage --no-cache",
     "pretty": "prettier --config ./prettier.config.js \"{src,test}/**/*.ts\"",
-    "prettify": "pretty --write",
-    "prettify:check": "pretty -l",
+    "prettify": "yarn pretty --write",
+    "prettify:check": "yarn pretty -l",
     "lint": "tslint -c ./tslint.json -t codeFrame \"{src,test}/**/*.ts\"",
-    "lint:check": "lint --force"
+    "lint:check": "yarn lint --force"
   },
   "jest": {
     "transform": {
