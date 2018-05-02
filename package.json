@@ -22,8 +22,7 @@
     "pretty": "prettier --config ./prettier.config.js \"{src,test}/**/*.ts\"",
     "prettify": "yarn pretty --write",
     "prettify:check": "yarn pretty -l",
-    "lint": "tslint -c ./tslint.json -t codeFrame \"{src,test}/**/*.ts\"",
-    "lint:check": "yarn lint --force"
+    "lint": "tslint -c ./tslint.json -t codeFrame \"{src,test}/**/*.ts\""
   },
   "jest": {
     "transform": {
