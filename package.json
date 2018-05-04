@@ -12,6 +12,7 @@
     "tingodb": "^0.6.1",
     "env-subst": "^1.0.3",
     "mongoose": "^5.0.17",
+    "tingodb": "^0.6.1",
     "trackr-lib": "sonarplanet/trackr-lib#publish",
     "web-push": "^3.3.0"
   },
