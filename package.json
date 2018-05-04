@@ -9,10 +9,11 @@
   "dependencies": {
     "@types/body-parser": "^1.16.8",
     "@types/express": "^4.11.1",
-    "web-push": "^3.3.0",
-    "env-subst": "^1.0.3",
     "tingodb": "^0.6.1",
-    "trackr-lib": "sonarplanet/trackr-lib#publish"
+    "env-subst": "^1.0.3",
+    "mongoose": "^5.0.17",
+    "trackr-lib": "sonarplanet/trackr-lib#publish",
+    "web-push": "^3.3.0"
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
@@ -51,6 +52,8 @@
   "devDependencies": {
     "typescript": "^2.8.1",
     "nodemon": "^1.17.3",
+    "@types/mongodb": "^3.0.16",
+    "@types/mongoose": "^5.0.11",
     "@types/jest": "^22.2.3",
     "@types/supertest": "^2.0.4",
     "supertest": "^3.0.0",
@@ -61,7 +64,7 @@
     "tslint-config-standard": "^7.0.0",
     "prettier": "1.12.1"
   },
-  "engines" : {
-    "node" : "^8.0"
+  "engines": {
+    "node": "^8.0"
   }
 }

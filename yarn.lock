@@ -23,6 +23,12 @@
     "@types/express" "*"
     "@types/node" "*"
 
+"@types/bson@*":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@types/bson/-/bson-1.0.8.tgz#6ad272b3f049e9598ec33aed09cf56d8946b75f1"
+  dependencies:
+    "@types/node" "*"
+
 "@types/events@*":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
@@ -49,6 +55,22 @@
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
+
+"@types/mongodb@*", "@types/mongodb@^3.0.16":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.0.16.tgz#7972a5fc0524a8c4dc96263b5791b44def760fcc"
+  dependencies:
+    "@types/bson" "*"
+    "@types/events" "*"
+    "@types/node" "*"
+
+"@types/mongoose@^5.0.11":
+  version "5.0.11"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.0.11.tgz#db5fc62f17a435fc7ec6c32f936c6383c336ef6d"
+  dependencies:
+    "@types/events" "*"
+    "@types/mongodb" "*"
+    "@types/node" "*"
 
 "@types/node@*":
   version "9.6.5"

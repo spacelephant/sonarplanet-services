@@ -1,0 +1,7 @@
+[
+  {
+    "id": "ETHEREUM_KOVAN",
+    "url": "wss://sonarplanet-eth-node-noprod.cleverapps.io",
+    "scannerUrl": "https://kovan.etherscan.io/tx/"
+  }
+]
