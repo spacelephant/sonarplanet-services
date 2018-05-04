@@ -38,7 +38,8 @@
       "/node_modules/",
       "/test/"
     ],
-    "collectCoverage": true
+    "collectCoverage": true,
+    "collectCoverageFrom": ["src/**/*.{ts,js,tsx,jsx}"]
   },
   "devDependencies": {
     "typescript": "^2.8.1",
