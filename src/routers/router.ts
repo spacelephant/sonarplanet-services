@@ -56,7 +56,7 @@ accountRouter.get('/:accountId', (req: any, res: any) => {
         console.info("Account (uniqueId: " + account.uniqueId + ")")
         res.json(account)
       } else {
-        console.error("Account not found (uniqueId: " + account.uniqueId + ")")
+        console.info("Account not found (uniqueId: " + req.params.accountId + ")")
         res.status(404).send()
       }
     }
