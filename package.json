@@ -37,17 +37,19 @@
   },
   "dependencies": {
     "@types/body-parser": "^1.16.8",
+    "@types/config": "^0.0.34",
     "@types/express": "^4.11.1",
     "tingodb": "^0.6.1",
     "env-subst": "^1.0.3",
     "mongoose": "^5.0.17",
+    "config": "^1.30.0",
     "trackr-lib": "sonarplanet/trackr-lib#publish",
     "web-push": "^3.3.0"
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "dev": "NODE_ENV=development nodemon ./dist/app.js",
-    "start": "NODE_ENV=production node ./dist/app.js",
+    "start": "node ./dist/app.js",
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "test:prod": "yarn test --coverage --no-cache",
@@ -58,6 +60,7 @@
   },
   "devDependencies": {
     "typescript": "^2.8.1",
+    "ts-node": "^6.0.3",
     "nodemon": "^1.17.3",
     "@types/mongodb": "^3.0.16",
     "@types/mongoose": "^5.0.11",

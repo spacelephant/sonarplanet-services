@@ -1,31 +1,47 @@
 ## Sonar Planet Services
+
 ### Description
+
 Sonar Planet Services is a Javascript backend to track transactions that directly impact an ethereum address. It uses [trackr-lib](https://github.com/sonarplanet/trackr-lib) to connect backend to ethereum node and [web-push](https://github.com/web-push-libs/web-push) lib for push notifications in browser.
 
 Stack:
+
 * [NodeJS](https://nodejs.org)
 * [Express](https://github.com/expressjs/express)
 * [Nodemon](https://github.com/remy/nodemon/)
 * [Yarn](https://yarnpkg.com)
 
 ### Variables
-```
-trackr_node_address = Ethereum node url (web socket)
-etherScanUrl = [etherscan.io](https://etherscan.io/) subdomain url
-```
+
+Sonarplanet-services uses [node-config](https://github.com/lorenwest/node-config) to configure variables with value based on environment.
+
+Configuration files are in `config/` folder.
+
+A TS interface has been defined (`types.ts`).
+
+You can find these environment configuration files :
+
+* `default` used by default if no configuration file is found for the current environment
+* `integration` when `NODE_ENV=integration`
+* `staging` when `NODE_ENV=staging`
+* `production` when `NODE_ENV=production`
 
 ### Launch
+
 Install dependances:
+
 ```
 yarn
 ```
 
 Launch backend:
+
 ```
 yarn start
 ```
 
 Or launch backend with automatic dev reload:
+
 ```
 yarn dev
 ```
@@ -104,8 +120,11 @@ database: {
   - ```networkId```: String (Blockchain network ID ex: ETHEREUM_KOVAN)
 
 ## Ethereum node (Ubuntu)
+
 ### Install go-ethereum
+
 go-ethereum installation detailed [here](https://github.com/ethereum/go-ethereum)
+
 ```
 sudo add-apt-repository -y ppa:ethereum/ethereum
 sudo apt-get update
@@ -113,16 +132,16 @@ sudo apt-get install ethereum
 ```
 
 ### Launch node
+
 ```
 geth --config rinkeby.fast.toml console
 ```
 
 Web socket default port: 8546
 
-
 rinkeby.fast.toml file example:
-```
 
+```
 [Eth]
 NetworkId = 4
 SyncMode = "fast"
