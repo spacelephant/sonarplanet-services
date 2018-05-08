@@ -2,19 +2,21 @@ import {
   json
 } from 'body-parser'
 
+import * as express from 'express'
+
 const TrackerUtils = require('../trackerUtils')
 
 const InMemoryDB = require('../database/InMemoryDataBase')
 let database = new InMemoryDB()
 
 // Routers
-let accountRouter = require('express').Router()
-let networkRouter = require('express').Router({ mergeParams: true })
-let publicAddressSubscriptionRouter = require('express').Router({ mergeParams: true })
-let webpushNotificationRouter = require('express').Router({ mergeParams: true })
-let enabledNotificationMediaRouter = require('express').Router({ mergeParams: true })
+let accountRouter = express.Router()
+let networkRouter = express.Router({ mergeParams: true })
+let publicAddressSubscriptionRouter = express.Router({ mergeParams: true })
+let webpushNotificationRouter = express.Router({ mergeParams: true })
+let enabledNotificationMediaRouter = express.Router({ mergeParams: true })
 
-let router = require('express').Router()
+let router = express.Router()
 
 router.use((req: any, res: any, next: any) => {
   res.append('Access-Control-Allow-Origin', ['*']);
@@ -114,7 +116,7 @@ publicAddressSubscriptionRouter.post('/', (req: any, res: any) => {
                         console.error("Error fetching webpush notification parameters for account " + account.uniqueId + ' ' + err.message)
                         res.status(500).send()
                       } else {
-                        TrackerUtils.watchWebPush(networkId, publicAddress, getWebPushSubstriptionObject(wpn))
+                        TrackerUtils.watchWebPush(networkId, publicAddress, getWebPushSubscriptionObject(wpn))
                         res.status(201).json(pub[0]).send()
                       }
                     })
@@ -187,7 +189,7 @@ webpushNotificationRouter.post('/', (req: any, res: any) => {
 // Get all enabled medias for an account
 //enabledNotificationMediaRouter.get('/', (req: any, res: any) => {})
 
-let getWebPushSubstriptionObject = (webPushNotificationParameters: any) => {
+let getWebPushSubscriptionObject = (webPushNotificationParameters: any) => {
   return {
     endpoint: webPushNotificationParameters.endpoint,
     keys: {

@@ -14,7 +14,6 @@ trackr_node_address = Ethereum node url (web socket)
 etherScanUrl = [etherscan.io](https://etherscan.io/) subdomain url
 ```
 
-
 ### Launch
 Install dependances:
 ```
@@ -31,7 +30,78 @@ Or launch backend with automatic dev reload:
 yarn dev
 ```
 
+
+Launch tests:
+```
+yarn test
+```
+
 The API will be available at `http://localhost:8080/`
+
+### API Routes
+- Create account
+```
+  POST /api/v1/accounts
+  body: 
+    {
+      ubid: string (unique browser ID)
+    }
+```
+- Get account with id ```accountId```
+```
+  GET /api/v1/accounts/:accountId
+```
+- Create WebPush Notification settings (add settings for account ```:accountId```)
+```
+  POST /api/v1/accounts/:accountId/webpush-notifications
+  body:
+    {
+      subscription: {
+        endpoint: string
+        keys: {
+          p256dh: string,
+          auth: string
+        }
+      }
+    }
+```
+- Create Public Address Subscription (trigger notification for account ```accountId``` on network ```networkId``` for webpush media (other medias supported in future version))
+```
+  POST /api/v1/accounts/:accountId/networks/:networkId/public-address-subscriptions
+  body: {
+    publicAddress: string
+  }
+```
+
+### Database
+For this project we use mongodb in memory database with tingodb module. Database destination directory can be configured for every environment in config.ts file
+Here is an example for test environment:
+```
+database: {
+  directory: "db_storage"
+}
+```
+Database files will be created in relative directory ```db_storage```.
+
+You can use environment variables:
+```
+database: {
+  directory: "${HOME}/db_storage"
+}
+```
+
+#### Models
+- Account
+  - ```uniqueId```: String (unique browser ID) (unique key)
+  - ```webPushNotification```: WebPushNotification reference
+  - ```publicAddressSubscriptions```: Array of PublicAddressSubscription references 
+- WebPushNotification
+  - ```endpoint```: String (Endpoint called by sonarplanet to create webpush notification)
+  - ```p256dh```: String
+  - ```auth```: String
+- PublicAddressSubscription
+  - ```publicAddress```: String
+  - ```networkId```: String (Blockchain network ID ex: ETHEREUM_KOVAN)
 
 ## Ethereum node (Ubuntu)
 ### Install go-ethereum
