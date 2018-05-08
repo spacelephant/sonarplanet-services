@@ -1,5 +1,9 @@
 node_modules
-.vscode
 dist
+<<<<<<< 1dccdde70d1446bfd16035b36ed320f2d2ab8c19
 yarn-error.log
 coverage
+=======
+coverage
+yarn-error.log
+>>>>>>> test: Add routes tests
