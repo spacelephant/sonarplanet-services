@@ -1,34 +1,20 @@
 {
   "name": "sonarplanet-services",
-  "version": "1.0.0",
-  "description": "Address tracker",
+  "version": "0.0.0",
+  "description": "Sonar Planet back-end (express, mongodb)",
   "main": "app.js",
-  "repository": "git@github.com:sonarplanet/sonarplanet-services.git",
-  "author": "sonarplanet",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sonarplanet/sonarplanet-services.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sonarplanet/sonarplanet-services/issues"
+  },
+  "homepage": "https://github.com/sonarplanet/sonarplanet-services/README.md",
+  "author": "TREGUER Fabien <fabien.treguer@spacelephant.org> http://spacelephant.org#fabien",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@types/body-parser": "^1.16.8",
-    "@types/express": "^4.11.1",
-    "tingodb": "^0.6.1",
-    "env-subst": "^1.0.3",
-    "mongoose": "^5.0.17",
-    "tingodb": "^0.6.1",
-    "trackr-lib": "sonarplanet/trackr-lib#publish",
-    "web-push": "^3.3.0"
-  },
-  "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "dev": "NODE_ENV=development nodemon ./dist/app.js",
-    "start": "NODE_ENV=production node ./dist/app.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:prod": "yarn test --coverage --no-cache",
-    "pretty": "prettier --config ./prettier.config.js \"{src,test}/**/*.ts\"",
-    "prettify": "yarn pretty --write",
-    "prettify:check": "yarn pretty -l",
-    "lint": "tslint -c ./tslint.json -t codeFrame \"{src,test}/**/*.ts\""
-  },
   "jest": {
+    "verbose": true,
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
@@ -47,8 +33,28 @@
       "/src/types"
     ],
     "collectCoverage": true,
-    "automock": false,
-    "collectCoverageFrom": ["src/**/*.{ts,js,tsx,jsx}"]
+    "automock": false
+  },
+  "dependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/express": "^4.11.1",
+    "tingodb": "^0.6.1",
+    "env-subst": "^1.0.3",
+    "mongoose": "^5.0.17",
+    "trackr-lib": "sonarplanet/trackr-lib#publish",
+    "web-push": "^3.3.0"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "dev": "NODE_ENV=development nodemon ./dist/app.js",
+    "start": "NODE_ENV=production node ./dist/app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:prod": "yarn test --coverage --no-cache",
+    "pretty": "prettier --config ./prettier.config.js \"{src,test}/**/*.ts\"",
+    "prettify": "yarn pretty --write",
+    "prettify:check": "yarn pretty -l",
+    "lint": "tslint -c ./tslint.json -t codeFrame \"{src,test}/**/*.ts\""
   },
   "devDependencies": {
     "typescript": "^2.8.1",

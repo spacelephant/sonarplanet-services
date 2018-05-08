@@ -1,20 +1,11 @@
-import { ObjectId } from "bson";
 import {
   json
 } from 'body-parser'
 
-const Config = require('../config/config')
-let configuration = new Config()
-
 const TrackerUtils = require('../trackerUtils')
 
-var Engine = require('tingodb')()
-
-var db = new Engine.Db(require('os').homedir() + '/memoryDB/', {});
-
-var accountCollection = db.collection('Account')
-var publicAddressSubscriptionCollection = db.collection('PublicAddressSubscription')
-var webPushNotificationCollection = db.collection('WebPushNotification')
+const InMemoryDB = require('../database/InMemoryDataBase')
+let database = new InMemoryDB()
 
 // Routers
 let accountRouter = require('express').Router()
@@ -45,14 +36,14 @@ accountRouter.use('/:accountId/enabled-notification-medias', enabledNotification
 // Get Account
 // /accounts/:accountId
 accountRouter.get('/:accountId', (req: any, res: any) => {
-  accountCollection.findOne({ uniqueId: req.params.accountId }, (err: Error, account: any) => {
+  database.accountCollection.findOne({ uniqueId: req.params.accountId }, (err: Error, account: any) => {
     if (err) {
       console.error("Error fetching account. " + err)
       res.status(500).send()
     } else {
       if (account) {
         console.info("Fetching Account (uniqueId: " + account.uniqueId + ")")
-        res.status(201).json(account).send()
+        res.status(200).json(account).send()
       } else {
         console.info("Account not found (uniqueId: " + req.params.accountId + ")")
         res.status(404).send()
@@ -69,17 +60,17 @@ accountRouter.post('/', (req: any, res: any) => {
     let accountObject = {
       uniqueId: uniqueAccountId
     }
-    accountCollection.insert(accountObject, (err: Error, acc: any) => {
+    database.accountCollection.insert(accountObject, (err: Error, acc: any) => {
       if (err) {
-        res.status(500).send({ message: "Error occured during save step" })
+        res.status(500).send({ message: err.message })
       } else {
         console.info("Account created (uniqueId: " + uniqueAccountId + ")")
-        res.status(201).json(acc);
+        res.status(201).json(acc[0]);
       }
     })
   } else {
-    console.error("Bad request error with parameters : " + req.params)
-    res.status(403).send({})
+    console.error("Bad request error")
+    res.status(400).send({})
   }
 })
 
@@ -87,86 +78,105 @@ accountRouter.post('/', (req: any, res: any) => {
 // /accounts/:accountId/networks/:networkId/public-address-subscriptions
 publicAddressSubscriptionRouter.post('/', (req: any, res: any) => {
   // We just use webpush notifications, no parameters needed yet
-  let publicAddress = req.body.publicAddress
-  if (publicAddress) {
-    let accountId = req.params.accountId
-    let networkId = req.params.networkId
-    accountCollection.findOne({ uniqueId: accountId }, (err: Error, account: any) => {
-      if (err) {
-        console.error("Error fetching account. " + err)
-        res.status(500).send()
-      } else {
-        let publication = {
-          publicAddress: publicAddress,
-          network: networkId
-        }
-        publicAddressSubscriptionCollection.insert(publication, (err: Error, pub: any) => {
-          var updateOrSet = {}
-          if (account.publicAddressSubscriptions) {
-            updateOrSet = { $push: { publicAddressSubscriptions: pub[0]._id } }
-          } else {
-            updateOrSet = { $set: { publicAddressSubscriptions: [pub[0]._id] } }
+  let accountId = req.params.accountId
+  let networkId = req.params.networkId
+
+  database.accountCollection.findOne({ uniqueId: accountId }, (err: Error, account: any) => {
+    if (err) {
+      console.error("Error fetching account for public address subscription. " + err)
+      res.status(500).send()
+    } else {
+      if (account) {
+        let publicAddress = req.body.publicAddress
+        if (publicAddress) {
+          let publication = {
+            publicAddress: publicAddress,
+            network: networkId
           }
-          console.log(account)
-          accountCollection.update({ _id: account._id }, updateOrSet, (err: Error, response: any) => {
-            if (err) {
-              console.error("Error adding public address subscription on account. " + err)
-              res.status(500).send()
+          database.publicAddressSubscriptionCollection.insert(publication, (errPUB: Error, pub: any) => {
+            if (errPUB) {
+              console.error("Error creating public address subscription. " + errPUB.message)
             } else {
-              if (account.webPushNotification) {
-                webPushNotificationCollection.findOne({ _id: account.webPushNotification }, (err: Error, wpn: any) => {
-                  if (err) {
-                    console.error("Error fetching webpush notification parameters for account " + account.uniqueId)
-                    res.status(500).send()
-                  } else {
-                    TrackerUtils.watchWebPush(networkId, publicAddress, getWebPushSubstriptionObject(wpn))
-                    res.status(201).send()
-                  }
-                })
+              var updateOrSet = {}
+              if (account.publicAddressSubscriptions) {
+                updateOrSet = { $push: { publicAddressSubscriptions: pub[0]._id } }
               } else {
-                res.status(500).send({ message: 'No web push parameters found for this account' })
+                updateOrSet = { $set: { publicAddressSubscriptions: [pub[0]._id] } }
               }
+              database.accountCollection.update({ _id: account._id }, updateOrSet, (errUPT: Error, response: any) => {
+                if (errUPT) {
+                  console.error("Error adding public address subscription on account. " + errUPT.message)
+                  res.status(500).send()
+                } else {
+                  if (account.webPushNotification) {
+                    database.webPushNotificationCollection.findOne({ _id: account.webPushNotification }, (err: Error, wpn: any) => {
+                      if (err) {
+                        console.error("Error fetching webpush notification parameters for account " + account.uniqueId + ' ' + err.message)
+                        res.status(500).send()
+                      } else {
+                        TrackerUtils.watchWebPush(networkId, publicAddress, getWebPushSubstriptionObject(wpn))
+                        res.status(201).json(pub[0]).send()
+                      }
+                    })
+                  } else {
+                    res.status(500).send({ message: 'No web push parameters found for this account' })
+                  }
+                }
+              })
             }
           })
-        })
+        } else {
+          console.error('Error parsing public address subscription parameters.')
+          res.status(400).send()
+        }
+      } else {
+        res.status(404).send()
       }
-    })
-  }
+    }
+  })
 })
 
 // Create WebPushNotification
 // /accounts/:accountId/webpush-notifications
 webpushNotificationRouter.post('/', (req: any, res: any) => {
   let accountId = req.params.accountId
-  accountCollection.findOne({ uniqueId: accountId }, (err: Error, account: any) => {
+  database.accountCollection.findOne({ uniqueId: accountId }, (err: Error, account: any) => {
     if (err) {
-      console.error("Error occured fetching account " + accountId)
-      res.status(500).send(err)
+      console.error("Error occured fetching account " + accountId + ' ' + err.message)
+      res.status(500).send()
     }
     if (account) {
-      let webPushNotif = {
-        endpoint: req.body.subscription.endpoint,
-        p256dh: req.body.subscription.keys.p256dh,
-        auth: req.body.subscription.keys.auth
-      }
-      webPushNotificationCollection.insert(webPushNotif, (err: Error, wpn: any) => {
-        if (err) {
-          console.error("Error saving webpush notification. " + err)
-          res.status(500)
-        } else {
-          accountCollection.update({ _id: account._id }, { $set: { webPushNotification: wpn[0]._id } }, (err: Error) => {
-            if (err) {
-              console.error("Error setting webpush notification on account " + accountId)
-              res.status(500).send()
-            } else {
-              res.status(201).json(webPushNotif).send()
-              console.info("WebPushNotifictaion set on account " + accountId)
-            }
-          })
+      let webPushNotif
+      try {
+        webPushNotif = {
+          endpoint: req.body.subscription.endpoint,
+          p256dh: req.body.subscription.keys.p256dh,
+          auth: req.body.subscription.keys.auth
         }
-      })
+      } catch (e) {
+        console.error('Error parsing parameters. ' + e)
+        res.status(400).send()
+      }
+      if (webPushNotif) {
+        database.webPushNotificationCollection.insert(webPushNotif, (errWPN: Error, wpn: any) => {
+          if (errWPN) {
+            console.error("Error saving webpush notification. " + errWPN.message)
+            res.status(500)
+          } else {
+            database.accountCollection.update({ _id: account._id }, { $set: { webPushNotification: wpn[0]._id } }, (errUPT: Error) => {
+              if (errUPT) {
+                console.error("Error setting webpush notification on account " + accountId + ' ' + errUPT.message)
+                res.status(500).send()
+              } else {
+                console.info("WebPushNotifictaion set on account " + accountId)
+                res.status(201).json(wpn[0]).send()
+              }
+            })
+          }
+        })
+      }
     } else {
-      res.status(403).send({ message: 'Bad parameters' })
+      res.status(404).send()
     }
   })
 })
