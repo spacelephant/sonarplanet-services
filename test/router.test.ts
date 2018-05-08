@@ -1,7 +1,7 @@
 /// <reference types="jest" />
 
 import * as Myapp from '../src/app'
-var request = require('supertest')
+import * as  request from 'supertest'
 
 const TrackerUtils = require('../src/trackerUtils')
 TrackerUtils.watchWebPush = jest.fn()
