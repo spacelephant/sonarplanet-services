@@ -36,7 +36,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/test/"
+      "/test/",
+      "/src/types"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": ["src/**/*.{ts,js,tsx,jsx}"]
