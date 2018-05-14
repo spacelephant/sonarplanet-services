@@ -10,12 +10,12 @@ const InMemoryDB = require('../src/database/InMemoryDataBase')
 let database = new InMemoryDB()
 
 // Account
-let account_1 = {
+const ACCOUNT_1 = {
   ubid: '1234'
 }
 
 // Web Push Notification
-let wpn_201 = {
+const WPN_201 = {
   subscription: {
     endpoint: 'endpoint',
     keys: {
@@ -25,14 +25,14 @@ let wpn_201 = {
   }
 }
 
-let wpn_400 = {
+const WPN_400 = {
   subscription: {
     endpoint: 'endpoint'
   }
 }
 
 // Public Address Subscription
-let publicAddressSubscription_201 = {
+const PUBLIC_ADDRESS_SUBSCRIPTION_201 = {
   publicAddress: '0xh5Test'
 }
 
@@ -41,8 +41,8 @@ describe('Sonar Planet API', () => {
     boostrapDataBaseForTest()
   })
 
-  afterAll(() => {
-    database.db.dropDatabase(() => {})
+  afterAll((done) => {
+    database.db.dropDatabase(done)
   })
 
   describe('Account', () => {
@@ -61,7 +61,7 @@ describe('Sonar Planet API', () => {
     it('Create account 1234 OK 201', done => {
       request(Myapp)
         .post('/api/v1/accounts')
-        .send(account_1)
+        .send(ACCOUNT_1)
         .expect(201, { uniqueId: '1234', _id: '3' }, done)
     })
 
@@ -75,7 +75,7 @@ describe('Sonar Planet API', () => {
     it('Create account 1234 DUPLICATE_KEY 500', done => {
       request(Myapp)
         .post('/api/v1/accounts')
-        .send(account_1)
+        .send(ACCOUNT_1)
         .expect(500, { message: 'duplicate key error index' }, done)
     })
   })
@@ -84,21 +84,21 @@ describe('Sonar Planet API', () => {
     it('Create webPushNotification for not found account', done => {
       request(Myapp)
         .post('/api/v1/accounts/123/webpush-notifications')
-        .send(wpn_201)
+        .send(WPN_201)
         .expect(404, {}, done)
     })
 
     it('Create webPushNotification BAD REQUEST 400', done => {
       request(Myapp)
         .post('/api/v1/accounts/123456789/webpush-notifications')
-        .send(wpn_400)
+        .send(WPN_400)
         .expect(400, {}, done)
     })
 
     it('Create webPushNotification OK 201', done => {
       request(Myapp)
         .post('/api/v1/accounts/123456789/webpush-notifications')
-        .send(wpn_201)
+        .send(WPN_201)
         .expect(201, { endpoint: 'endpoint', p256dh: '256', auth: 'auth', _id: 2 }, done)
     })
   })
@@ -107,7 +107,7 @@ describe('Sonar Planet API', () => {
     it('Account not found', done => {
       request(Myapp)
       .post('/api/v1/accounts/123/networks/ETHEREUM_KOVAN/public-address-subscriptions')
-      .send(publicAddressSubscription_201)
+      .send(PUBLIC_ADDRESS_SUBSCRIPTION_201)
       .expect(404, {}, done)
     })
 
@@ -121,7 +121,7 @@ describe('Sonar Planet API', () => {
     it('Public Address Subscription created 201', done => {
       request(Myapp)
       .post('/api/v1/accounts/123456789/networks/ETHEREUM_KOVAN/public-address-subscriptions')
-      .send(publicAddressSubscription_201)
+      .send(PUBLIC_ADDRESS_SUBSCRIPTION_201)
       .expect(201, {publicAddress: '0xh5Test', network: 'ETHEREUM_KOVAN', _id: 2})
 
       database.accountCollection.findOne(
@@ -131,7 +131,9 @@ describe('Sonar Planet API', () => {
             {publicAddressSubscriptions: {_id:2}}
           ]
         }, (err: Error, account: any) => {
-          expect(account._id.toString()).toEqual("2")
+          if (!err) {
+            expect(account._id.toString()).toEqual("2")
+          }
           done()
         })
     })
