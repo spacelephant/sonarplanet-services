@@ -4,10 +4,10 @@ import {
 
 import * as express from 'express'
 
-const TrackerUtils = require('../trackerUtils')
+const TRACKER_UTILS = require('../trackerUtils')
 
-const InMemoryDB = require('../database/InMemoryDataBase')
-let database = new InMemoryDB()
+const IN_MEMORY_DB = require('../database/InMemoryDataBase')
+let database = new IN_MEMORY_DB()
 
 // Routers
 let accountRouter = express.Router()
@@ -99,7 +99,7 @@ publicAddressSubscriptionRouter.post('/', (req: any, res: any) => {
             if (errPUB) {
               console.error("Error creating public address subscription. " + errPUB.message)
             } else {
-              var updateOrSet = {}
+              let updateOrSet = {}
               if (account.publicAddressSubscriptions) {
                 updateOrSet = { $push: { publicAddressSubscriptions: pub[0]._id } }
               } else {
@@ -116,7 +116,7 @@ publicAddressSubscriptionRouter.post('/', (req: any, res: any) => {
                         console.error("Error fetching webpush notification parameters for account " + account.uniqueId + ' ' + err.message)
                         res.status(500).send()
                       } else {
-                        TrackerUtils.watchWebPush(networkId, publicAddress, getWebPushSubscriptionObject(wpn))
+                        TRACKER_UTILS.watchWebPush(networkId, publicAddress, getWebPushSubscriptionObject(wpn))
                         res.status(201).json(pub[0]).send()
                       }
                     })
@@ -184,10 +184,10 @@ webpushNotificationRouter.post('/', (req: any, res: any) => {
 })
 
 // Get all networks
-//networkRouter.get('/', (req: any, res: any) => {})
+// networkRouter.get('/', (req: any, res: any) => {})
 
 // Get all enabled medias for an account
-//enabledNotificationMediaRouter.get('/', (req: any, res: any) => {})
+// enabledNotificationMediaRouter.get('/', (req: any, res: any) => {})
 
 let getWebPushSubscriptionObject = (webPushNotificationParameters: any) => {
   return {

@@ -2,43 +2,43 @@ import { ObjectId } from "bson";
 import * as path from 'path'
 import * as fs from 'fs'
 
-const envSubst = require('env-subst')
+const ENV_SUBST = require('env-subst')
 
 let mkDirByPathSync = (targetDir: string) => {
-  const sep = path.sep;
-  const initDir = path.isAbsolute(targetDir) ? sep : '';
-  const baseDir = ''
-  targetDir.split(sep).reduce((parentDir, childDir) => {
-    const curDir = path.resolve(baseDir, parentDir, childDir);
-    if (!fs.existsSync(curDir)) {
-      fs.mkdirSync(curDir);
+  const SEP = path.sep;
+  const INIT_DIR = path.isAbsolute(targetDir) ? SEP : '';
+  const BASE_DIR = ''
+  targetDir.split(SEP).reduce((parentDir, childDir) => {
+    const CURRENT_DIR = path.resolve(BASE_DIR, parentDir, childDir);
+    if (!fs.existsSync(CURRENT_DIR)) {
+      fs.mkdirSync(CURRENT_DIR);
     }
-    return curDir;
-  }, initDir);
+    return CURRENT_DIR;
+  }, INIT_DIR);
 }
 
 module.exports = function () {
 
-  var Engine = require('tingodb')()
-  const Config = require('../config/config')
-  let configuration = new Config()
+  const ENGINE = require('tingodb')()
+  const CONFIG = require('../config/config')
+  let configuration = new CONFIG()
 
-  let resolvedDatabasePath = envSubst(configuration.database.directory)
+  let resolvedDatabasePath = ENV_SUBST(configuration.database.directory)
 
   console.log("Create database in directory: " + resolvedDatabasePath)
   mkDirByPathSync(resolvedDatabasePath)
 
-  var db = new Engine.Db(resolvedDatabasePath, {});
+  const DB = new ENGINE.Db(resolvedDatabasePath, {});
 
-  var accountCollection = db.collection('Account')
-  accountCollection.createIndex({ uniqueId: 1 }, { unique: true })
-  var publicAddressSubscriptionCollection = db.collection('PublicAddressSubscription')
-  var webPushNotificationCollection = db.collection('WebPushNotification')
+  const ACCOUNT_COLLECTION = DB.collection('Account')
+  ACCOUNT_COLLECTION.createIndex({ uniqueId: 1 }, { unique: true })
+  const PUBLIC_ADDRESS_SUBSCRIPTION_COLLECTION = DB.collection('PublicAddressSubscription')
+  const WEB_PUSH_NOTIFICATION_COLLECTION = DB.collection('WebPushNotification')
 
   return {
-    db: db,
-    accountCollection: accountCollection,
-    publicAddressSubscriptionCollection,
-    webPushNotificationCollection: webPushNotificationCollection
+    db: DB,
+    accountCollection: ACCOUNT_COLLECTION,
+    publicAddressSubscriptionCollection: PUBLIC_ADDRESS_SUBSCRIPTION_COLLECTION,
+    webPushNotificationCollection: WEB_PUSH_NOTIFICATION_COLLECTION
   }
 }
