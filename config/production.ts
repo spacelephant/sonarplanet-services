@@ -1,8 +1,7 @@
-import DefaultConfig from "./default";
+import DefaultConfig from './default';
 
 const productionConfig = DefaultConfig;
 
-productionConfig.networks.ethereumKovan.trackerUrl =
-  "wss://sonarplanet-eth-node.cleverapps.io";
+productionConfig.database.directory = '${BUCKET_FOLDER}/db_storage';
 
 export default productionConfig;
