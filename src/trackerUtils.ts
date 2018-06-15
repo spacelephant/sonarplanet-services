@@ -14,16 +14,14 @@ const OPTIONS = {
 
 function watch(networkid: string, address: string, subscription: any) {
   console.log('Watch local');
-  const TRACKR_NODE_ADDRESS = CONFIG.get('networks.ethereumKovan.trackerUrl');
-  const ETHER_SCAN_URL = CONFIG.get('networks.ethereumKovan.scannerUrl');
 
   trackr.watch(
-    TRACKR_NODE_ADDRESS,
+    networkid,
     address,
     (transactionId: string) => {
       console.log('watch callback');
       let payload = {
-        url: ETHER_SCAN_URL + transactionId,
+        url: CONFIG.get('networks.' + networkid + '.scannerUrl') + transactionId,
       };
       webpush.sendNotification(subscription, JSON.stringify(payload), OPTIONS).then(
         (response: any) => {

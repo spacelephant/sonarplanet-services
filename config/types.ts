@@ -1,10 +1,12 @@
 export interface Network {
+  id: string;
   trackerUrl: string;
   scannerUrl: string;
 }
 
 export interface Networks {
   ethereumKovan: Network;
+  ethereumMainnet: Network;
 }
 
 export interface Server {

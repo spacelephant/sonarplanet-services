@@ -3,6 +3,7 @@ import {
 } from 'body-parser'
 
 import * as express from 'express'
+import * as CONFIG from 'config'
 
 const TRACKER_UTILS = require('../trackerUtils')
 
@@ -34,7 +35,6 @@ networkRouter.use('/:networkId/public-address-subscriptions', publicAddressSubsc
 accountRouter.use('/:accountId/webpush-notifications', webpushNotificationRouter)
 accountRouter.use('/:accountId/enabled-notification-medias', enabledNotificationMediaRouter)
 
-
 // Get Account
 // /accounts/:accountId
 accountRouter.get('/:accountId', (req: any, res: any) => {
@@ -52,6 +52,22 @@ accountRouter.get('/:accountId', (req: any, res: any) => {
       }
     }
   })
+})
+
+// Get all networks
+// /networks
+networkRouter.get('/', (req: any, res: any) => {
+  let networks = [
+    CONFIG.get('networks.ethereumKovan.id'),
+    CONFIG.get('networks.ethereumMainnet.id')
+  ]
+  if (networks) {
+    console.info("Fetching Networks : " + networks)
+    res.status(200).json(networks).send()
+  } else {
+    console.info("Networks not found")
+    res.status(404).send()
+  }
 })
 
 // Create account
@@ -182,9 +198,6 @@ webpushNotificationRouter.post('/', (req: any, res: any) => {
     }
   })
 })
-
-// Get all networks
-// networkRouter.get('/', (req: any, res: any) => {})
 
 // Get all enabled medias for an account
 // enabledNotificationMediaRouter.get('/', (req: any, res: any) => {})

@@ -13,12 +13,20 @@ const defaultSupport: Support = {
 };
 
 const defaultEthereumKovan: Network = {
-  trackerUrl: 'wss://sonarplanet-eth-node-noprod.cleverapps.io',
+  id: 'ethereumKovan',
+  trackerUrl: 'wss://eth-node-mainnet.cleverapps.io',
   scannerUrl: 'https://kovan.etherscan.io/tx/',
+};
+
+const defaultEthereumMainnet: Network = {
+  id: 'ethereumMainnet',
+  trackerUrl: 'wss://eth-node-mainnet.cleverapps.io',
+  scannerUrl: 'https://etherscn.io/tx/',
 };
 
 const defaultNetworks: Networks = {
   ethereumKovan: defaultEthereumKovan,
+  ethereumMainnet: defaultEthereumMainnet,
 };
 
 const defaultConfig: Config = {
