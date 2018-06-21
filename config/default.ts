@@ -13,20 +13,35 @@ const defaultSupport: Support = {
 };
 
 const defaultEthereumKovan: Network = {
-  id: 'ethereumKovan',
-  trackerUrl: 'wss://eth-node-mainnet.cleverapps.io',
+  networkId: 'defaultEthereumKovan',
+  label: 'Ethereum Kovan',
+  trackerUrl: 'ws://localhost:8081',
   scannerUrl: 'https://kovan.etherscan.io/tx/',
 };
 
 const defaultEthereumMainnet: Network = {
-  id: 'ethereumMainnet',
+  networkId: 'defaultEthereumMainnet',
+  label: 'Ethereum Mainnet',
   trackerUrl: 'wss://eth-node-mainnet.cleverapps.io',
-  scannerUrl: 'https://etherscn.io/tx/',
+  scannerUrl: 'https://etherscan.io/tx/',
+};
+
+const allNetworks = {//{a:'a',b:'b', ...}
+  defaultEthereumKovan:defaultEthereumKovan,
+  defaultEthereumMainnet:defaultEthereumMainnet
+}
+
+const createNetworks = (networks:Array<Network>) => {
+  let array = new Array<Array<string>>();
+  networks.forEach(network => {
+    array.push([network.networkId, network.label]);
+  });
+  return array;
 };
 
 const defaultNetworks: Networks = {
-  ethereumKovan: defaultEthereumKovan,
-  ethereumMainnet: defaultEthereumMainnet,
+  networks: createNetworks([defaultEthereumKovan, defaultEthereumMainnet]),//['a','b', ...]
+  allNetworks: allNetworks
 };
 
 const defaultConfig: Config = {

@@ -4,6 +4,7 @@ import {
 
 import * as express from 'express'
 import * as CONFIG from 'config'
+import { ADDRGETNETWORKPARAMS } from 'dns';
 
 const TRACKER_UTILS = require('../trackerUtils')
 
@@ -57,10 +58,11 @@ accountRouter.get('/:accountId', (req: any, res: any) => {
 // Get all networks
 // /networks
 networkRouter.get('/', (req: any, res: any) => {
-  let networks = [
-    CONFIG.get('networks.ethereumKovan.id'),
-    CONFIG.get('networks.ethereumMainnet.id')
-  ]
+  let array:Array<Array<string>> = CONFIG.get('networks.networks');
+  let networks:Array<Object> = [];
+  array.forEach(network => {
+    networks.push({id:network[0], label:network[1]})
+  });
   if (networks) {
     console.info("Fetching Networks : " + networks)
     res.status(200).json(networks).send()

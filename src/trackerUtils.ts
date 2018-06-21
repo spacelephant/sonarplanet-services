@@ -12,16 +12,15 @@ const OPTIONS = {
   },
 };
 
-function watch(networkid: string, address: string, subscription: any) {
+function watch(networkId: string, address: string, subscription: any) {
   console.log('Watch local');
-
   trackr.watch(
-    networkid,
+    CONFIG.get('networks.allNetworks.' + networkId + '.trackerUrl'),
     address,
     (transactionId: string) => {
       console.log('watch callback');
       let payload = {
-        url: CONFIG.get('networks.' + networkid + '.scannerUrl') + transactionId,
+        url: CONFIG.get('networks.allNetworks.' + networkId + '.scannerUrl') + transactionId,
       };
       webpush.sendNotification(subscription, JSON.stringify(payload), OPTIONS).then(
         (response: any) => {

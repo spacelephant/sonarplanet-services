@@ -2,6 +2,7 @@
 
 import * as Myapp from '../src/app'
 import * as  request from 'supertest'
+import * as CONFIG from 'config'
 
 const TrackerUtils = require('../src/trackerUtils')
 TrackerUtils.watchWebPush = jest.fn()
@@ -13,6 +14,11 @@ let database = new InMemoryDB()
 const ACCOUNT_1 = {
   ubid: '1234'
 }
+
+// Network
+let NETWORKS_TEST = [
+  {"id":"defaultEthereumKovan","label":"Ethereum Kovan"},
+  {"id":"defaultEthereumMainnet","label":"Ethereum Mainnet"}]
 
 // Web Push Notification
 const WPN_201 = {
@@ -80,6 +86,14 @@ describe('Sonar Planet API', () => {
     })
   })
 
+  describe('Networks', () => {
+    it('Networks found', done => {
+      request(Myapp)
+        .get('/api/v1/networks')
+        .expect(200, NETWORKS_TEST, done)
+    })
+  })
+
   describe('WebPush notification settings', () => {
     it('Create webPushNotification for not found account', done => {
       request(Myapp)
@@ -106,23 +120,23 @@ describe('Sonar Planet API', () => {
   describe('Public Address Subscription', () => {
     it('Account not found', done => {
       request(Myapp)
-      .post('/api/v1/accounts/123/networks/ETHEREUM_KOVAN/public-address-subscriptions')
+      .post('/api/v1/accounts/123/networks/defaultEthereumKovan/public-address-subscriptions')
       .send(PUBLIC_ADDRESS_SUBSCRIPTION_201)
       .expect(404, {}, done)
     })
 
     it('No public address parameter BAD REQUEST 400', done => {
       request(Myapp)
-      .post('/api/v1/accounts/123456789/networks/ETHEREUM_KOVAN/public-address-subscriptions')
+      .post('/api/v1/accounts/123456789/networks/defaultEthereumKovan/public-address-subscriptions')
       .send({})
       .expect(400, {}, done)
     })
 
     it('Public Address Subscription created 201', done => {
       request(Myapp)
-      .post('/api/v1/accounts/123456789/networks/ETHEREUM_KOVAN/public-address-subscriptions')
+      .post('/api/v1/accounts/123456789/networks/defaultEthereumKovan/public-address-subscriptions')
       .send(PUBLIC_ADDRESS_SUBSCRIPTION_201)
-      .expect(201, {publicAddress: '0xh5Test', network: 'ETHEREUM_KOVAN', _id: 2})
+      .expect(201, {publicAddress: '0xh5Test', network: 'defaultEthereumKovan', _id: 2})
 
       database.accountCollection.findOne(
         {

@@ -1,12 +1,13 @@
 export interface Network {
-  id: string;
+  networkId: string;
+  label: string;
   trackerUrl: string;
   scannerUrl: string;
 }
 
 export interface Networks {
-  ethereumKovan: Network;
-  ethereumMainnet: Network;
+  networks: Array<Array<string>>;
+  allNetworks: Object;
 }
 
 export interface Server {
