@@ -17,8 +17,8 @@ const ACCOUNT_1 = {
 
 // Network
 let NETWORKS_TEST = [
-  {"id":"defaultEthereumKovan","label":"Ethereum Kovan"},
-  {"id":"defaultEthereumMainnet","label":"Ethereum Mainnet"}]
+  {"networkId":"defaultEthereumKovan","label":"Ethereum Kovan"},
+  {"networkId":"defaultEthereumMainnet","label":"Ethereum Mainnet"}]
 
 // Web Push Notification
 const WPN_201 = {

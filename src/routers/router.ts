@@ -4,7 +4,7 @@ import {
 
 import * as express from 'express'
 import * as CONFIG from 'config'
-import { ADDRGETNETWORKPARAMS } from 'dns';
+import { Network } from '../../config/types';
 
 const TRACKER_UTILS = require('../trackerUtils')
 
@@ -58,13 +58,16 @@ accountRouter.get('/:accountId', (req: any, res: any) => {
 // Get all networks
 // /networks
 networkRouter.get('/', (req: any, res: any) => {
-  let array:Array<Array<string>> = CONFIG.get('networks.networks');
-  let networks:Array<Object> = [];
-  array.forEach(network => {
-    networks.push({id:network[0], label:network[1]})
+  let array:Array<Network> = CONFIG.get('networks.networks');
+  let networks:Array<Object>;
+  array.forEach((network: Network) => {
+    networks.push({
+      networkId: network.networkId,
+      label:network.label,
+    });
   });
   if (networks) {
-    console.info("Fetching Networks : " + networks)
+    console.info("Fetching Networks : " + networks + ' test')
     res.status(200).json(networks);
   } else {
     console.info("Networks not found")

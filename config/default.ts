@@ -26,25 +26,11 @@ const defaultEthereumMainnet: Network = {
   scannerUrl: 'https://etherscan.io/tx/',
 };
 
-const networkList = [
-  defaultEthereumKovan,
-  defaultEthereumMainnet
-];
-
-const getNetworkList = (networks:Array<Network>, trackr:boolean) => {
-  let list = new Array<Array<string>>();
-  networks.forEach(network => {
-    if (trackr){
-      list.push([network.networkId, network.trackerUrl, network.scannerUrl]);}
-    else {
-      list.push([network.networkId, network.label]);}
-  });
-  return list;
-};
-
 const defaultNetworks: Networks = {
-  networks: getNetworkList(networkList, false),
-  fullNetworks: getNetworkList(networkList, true)
+  networks: [
+    defaultEthereumKovan,
+    defaultEthereumMainnet
+  ],
 };
 
 const defaultConfig: Config = {

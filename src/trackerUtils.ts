@@ -1,6 +1,7 @@
 import * as trackr from 'trackr-lib';
 import * as webpush from 'web-push';
 import * as CONFIG from 'config';
+import { Network } from '../config/types';
 
 // VAPID keys should only be generated only once.
 const VAP_ID_KEYS = webpush.generateVAPIDKeys();
@@ -13,16 +14,16 @@ const OPTIONS = {
 };
 
 function watch(networkId: string, address: string, subscription: any) {
-  let networkList:Array<Array<string>> = CONFIG.get('networks.fullNetworks');
-  let network:Array<string> = networkList.filter(networks => networks[0] === networkId)[0];
+  let networkList:Array<Network> = CONFIG.get('networks.networks');
+  let network:Network = networkList.filter(networks => networks.networkId === networkId)[0];
   console.log('Watch local');
   trackr.watch(
-    network[1],
+    network.trackerUrl,
     address,
     (transactionId: string) => {
       console.log('watch callback');
       let payload = {
-        url: network[2] + transactionId,
+        url: network.scannerUrl + transactionId,
       };
       webpush.sendNotification(subscription, JSON.stringify(payload), OPTIONS).then(
         (response: any) => {
