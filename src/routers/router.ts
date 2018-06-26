@@ -65,7 +65,7 @@ networkRouter.get('/', (req: any, res: any) => {
   });
   if (networks) {
     console.info("Fetching Networks : " + networks)
-    res.status(200).json(networks).send()
+    res.status(200).json(networks);
   } else {
     console.info("Networks not found")
     res.status(404).send()
@@ -175,6 +175,7 @@ webpushNotificationRouter.post('/', (req: any, res: any) => {
         }
       } catch (e) {
         console.error('Error parsing parameters. ' + e)
+        
         res.status(400).send()
       }
       if (webPushNotif) {

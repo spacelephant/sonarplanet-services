@@ -7,7 +7,7 @@ export interface Network {
 
 export interface Networks {
   networks: Array<Array<string>>;
-  allNetworks: Object;
+  fullNetworks: Array<Array<string>>;
 }
 
 export interface Server {

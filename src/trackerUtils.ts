@@ -13,14 +13,16 @@ const OPTIONS = {
 };
 
 function watch(networkId: string, address: string, subscription: any) {
+  let networkList:Array<Array<string>> = CONFIG.get('networks.fullNetworks');
+  let network:Array<string> = networkList.filter(networks => networks[0] === networkId)[0];
   console.log('Watch local');
   trackr.watch(
-    CONFIG.get('networks.allNetworks.' + networkId + '.trackerUrl'),
+    network[1],
     address,
     (transactionId: string) => {
       console.log('watch callback');
       let payload = {
-        url: CONFIG.get('networks.allNetworks.' + networkId + '.scannerUrl') + transactionId,
+        url: network[2] + transactionId,
       };
       webpush.sendNotification(subscription, JSON.stringify(payload), OPTIONS).then(
         (response: any) => {
