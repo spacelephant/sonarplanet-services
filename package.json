@@ -48,8 +48,8 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
-    "dev": "NODE_ENV=development nodemon ./dist/app.js",
-    "start": "node ./dist/app.js",
+    "dev": "NODE_ENV=development nodemon ./dist/src/app.js",
+    "start": "node ./dist/src/app.js",
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "test:prod": "yarn test --coverage --no-cache",

@@ -59,7 +59,7 @@ accountRouter.get('/:accountId', (req: any, res: any) => {
 // /networks
 networkRouter.get('/', (req: any, res: any) => {
   let array:Array<Network> = CONFIG.get('networks.networks');
-  let networks:Array<Object>;
+  let networks:Array<Object> = [];
   array.forEach((network: Network) => {
     networks.push({
       networkId: network.networkId,
@@ -67,7 +67,7 @@ networkRouter.get('/', (req: any, res: any) => {
     });
   });
   if (networks) {
-    console.info("Fetching Networks : " + networks + ' test')
+    console.info("Fetching Networks : " + networks)
     res.status(200).json(networks);
   } else {
     console.info("Networks not found")
