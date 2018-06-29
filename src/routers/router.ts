@@ -59,20 +59,15 @@ accountRouter.get('/:accountId', (req: any, res: any) => {
 // /networks
 networkRouter.get('/', (req: any, res: any) => {
   let array:Array<Network> = CONFIG.get('networks.networks');
-  let networks:Array<Object> = [];
-  array.forEach((network: Network) => {
-    networks.push({
+  let networks:any = [];
+  networks = array.map((network: Network) => {
+    return {
       networkId: network.networkId,
-      label:network.label,
-    });
+      label: network.label,
+    };
   });
-  if (networks) {
-    console.info("Fetching Networks : " + networks)
-    res.status(200).json(networks);
-  } else {
-    console.info("Networks not found")
-    res.status(404).send()
-  }
+  console.info("Fetching Networks : " + networks);
+  res.status(200).json(networks);
 })
 
 // Create account
