@@ -67,6 +67,10 @@ The API will be available at `http://localhost:8080/`
 ```
   GET /api/v1/accounts/:accountId
 ```
+- Get networks
+```
+  GET /api/v1/networks
+```
 - Create WebPush Notification settings (add settings for account ```:accountId```)
 ```
   POST /api/v1/accounts/:accountId/webpush-notifications
@@ -110,14 +114,14 @@ database: {
 - Account
   - ```uniqueId```: String (unique browser ID) (unique key)
   - ```webPushNotification```: WebPushNotification reference
-  - ```publicAddressSubscriptions```: Array of PublicAddressSubscription references 
+  - ```publicAddressSubscriptions```: Array of PublicAddressSubscription references
 - WebPushNotification
   - ```endpoint```: String (Endpoint called by sonarplanet to create webpush notification)
   - ```p256dh```: String
   - ```auth```: String
 - PublicAddressSubscription
   - ```publicAddress```: String
-  - ```networkId```: String (Blockchain network ID ex: ETHEREUM_KOVAN)
+  - ```networkId```: String (Blockchain network ID ex: defaultEthereumKovan)
 
 ## Ethereum node (Ubuntu)
 
